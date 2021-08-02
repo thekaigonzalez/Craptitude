@@ -20,15 +20,22 @@ elseif n == 2 then
     os.execute("clear")
     print("You currently have " .. getdirnumber("mnt") .. " images in the /mnt directory.")
     print("Type the name of one of the images below. (without the .dsi extension)")
-    local nametable = {}
+    local aiter = 0
     for i = 0, getdirnumber("mnt")-1 do
-
+        if (ends_with(getallfilesiE("mnt", i), ".dsi")) then
+            aiter = aiter + 1
+        end
         if (ends_with(getallfilesiE("mnt", i), ".rc")) then
             local nfile = loadfile("mnt/" .. getallfilesi("mnt", i) .. ".rc")()
-            print(getallfilesi("mnt", i) .. "  " .. nfile.name )
+            print(getallfilesi("mnt", i) .. "  " .. nfile.name .. " | disk" .. aiter )
         end
     end
 
     local image_filename = readline("crub> ")
-    dofile("./mnt/" .. image_filename .. ".dsi")
+    if starts_with(image_filename, "disk") then
+        local num = tonumber(image_filename:sub(5,5));
+        dofile("./mnt/" .. getallfilesi("mnt", num) .. ".dsi")
+    else
+        dofile("./mnt/" .. image_filename .. ".dsi")
+    end
 end
