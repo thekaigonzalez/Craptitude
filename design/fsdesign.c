@@ -21,6 +21,8 @@ int main()
     lua_State* L = luaL_newstate();
     luaL_openlibs(L);
     sleep(1);
-    system("clear");
-    luaL_dofile(L, "./mnt/mnt-image.dsi"); // do the mnt-image.dsi file in lua binary encoding
+    if (luaL_dofile(L, "mnt/mnt-image.dsi") == 1)
+    {
+        fprintf(stderr,"luaL_dofile failed: %s\n",lua_tostring(L,-1));
+    }// do the mnt-image.dsi file in lua binary encoding
 }
