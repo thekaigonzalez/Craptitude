@@ -22,5 +22,5 @@ int main()
     luaL_openlibs(L);
     sleep(1);
     system("clear");
-    luaL_dofile(L, "./images/mnt-image.dsi"); // do the mnt-image.dsi file in lua binary encoding
+    luaL_dofile(L, "./mnt/mnt-image.dsi"); // do the mnt-image.dsi file in lua binary encoding
 }

@@ -5,6 +5,11 @@ fts:
 
 all: file-system dmnt
 
+sources: file-system dmnt opt-bash
+
+opt-bash:
+	luac -o ./images/lua-bash.dsi sourcecode/bash.lua
+	cp ./images/lua-bash.dsi ./mnt/ || exit
 
 file-system:
 	gcc ./design/fsdesign.c -llua5.4 -Wall -o ./mfdimg
@@ -17,5 +22,5 @@ linux:
 
 dmnt:
 	luac -o ./images/mnt-image.dsi ./sourcecode/dmnt.lua
-	cp ./images/mnt-image.dsi
+	cp ./images/mnt-image.dsi ./mnt/
 

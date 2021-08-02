@@ -22,3 +22,14 @@ Make sure to read this:
 $ make fts
 $ make
 ```
+
+## Modular Features
+
+The Craptitude features can be compiled separately.
+Including the `sudo-bash` or the `lua-bash` images.
+
+You can build using these commands
+
+```
+$ make opt-bash
+```
