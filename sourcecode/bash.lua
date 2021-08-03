@@ -25,23 +25,41 @@ end
 function a:main(CODE)
     --- FreeKSD-based signal system
     if CODE == 0x01 then
+
         print("lua tty successful login on disk0")
         while true do
-            local command = readline("tty~$ ")
+            local command = readline(pwd() .. "$ ")
             local cargv = OneTimeSplit(command)
             --- first, check if a file exists by command then run if it is.
             if io.open(command) ~= nil then
-                local fileS = loadfile(command)()
-                fileS:main(cargv);
+                local fileS = loadfile(command) or nil
+                if fileS == nil then
+                    print("failed to load function command(): might be a directory")
+                else
+                    fileS():main(cargv);
+                end
             elseif io.open("./var/lb/" .. cargv[0] .. ".lua") ~= nil then
-                local fileS = loadfile("./var/lb/" .. cargv[0] .. ".lua")()
-                fileS:main(cargv)
+                local fileS = loadfile("./var/lb/" .. cargv[0] .. ".lua") or nil
+                if fileS == nil then
+                    print("failed to load function command(): might be a directory")
+                end
+                fileS():main(cargv)
             elseif io.open("./var/lb/" .. cargv[0] .. ".lsh") ~= nil then
-                local fileS = loadfile("./var/lb/" .. cargv[0] .. ".lsh")()
-                fileS:main(cargv)
+                local fileS = loadfile("./var/lb/" .. cargv[0] .. ".lsh") or nil
+                if fileS == nil then
+                    print("failed to load function command: might be a directory")
+                else
+                    print(fileS())
+
+                end
             elseif io.open("./var/lb/" .. cargv[0]) ~= nil then
-                local fileS = loadfile("./var/lb/" .. cargv[0])()
-                fileS:main(cargv)
+                local fileS = loadfile("./var/lb/" .. cargv[0]) or nil
+                if fileS == nil then
+                    print("failed to load function command(): might be a directory")
+                else
+                    fileS():main(cargv)
+
+                end
             else
                 print("bash: not a command, " .. cargv[0] .. ".")
             end

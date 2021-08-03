@@ -104,6 +104,12 @@ int FFIndexExt(lua_State* L)
     return 1;
 }
 
+int PWD(lua_State* L)
+{
+    lua_pushstring(L, std::filesystem::current_path().c_str());
+    return 1;
+}
+
 extern "C" {
     int luaopen_liblfds(lua_State* L)
     {
@@ -112,6 +118,7 @@ extern "C" {
         lua_register(L, "getallfilesi", FFIndex);
         lua_register(L, "getallfilesiE", FFIndexExt);
         lua_register(L, "readline", rl);
+        lua_register(L, "pwd",PWD);
         return 1;
     }
 }
