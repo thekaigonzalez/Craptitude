@@ -1,15 +1,26 @@
 fts:
 	mkdir ./images
 	mkdir ./mnt
-
+	mkdir deps
+	mkdir var
+	mkdir var/lb
 
 all: file-system dmnt
 
 sources: file-system dmnt opt-bash build-libs disk-data
 
+install-dependencies:
+	wget https://raw.githubusercontent.com/mpeterv/argparse/master/src/argparse.lua -O ./deps/argparse.lua
+
 opt-bash:
 	luac -o ./images/lua-bash.dsi sourcecode/bash.lua
-	cp ./images/lua-bash.dsi ./mnt/ || exit
+	luac -o ./images/lua-bash-tty.dsi sourcecode/ttys.lua
+	luac -o ./images/lua-bash.rc sourcecode/bashrc.lua
+	luac -o ./images/lua-bash-tty.rc sourcecode/ttysrc.lua
+	cp ./images/lua-bash-tty.dsi ./mnt/
+	cp ./images/lua-bash.rc ./mnt/
+	cp ./images/lua-bash.dsi ./mnt/
+	cp ./images/lua-bash-tty.rc ./mnt/
 
 file-system:
 	gcc ./design/fsdesign.c -llua5.4 -Wall -o ./mfdimg

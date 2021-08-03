@@ -33,3 +33,19 @@ You can build using these commands
 ```
 $ make opt-bash
 ```
+
+## .rc Files
+.rc files are for loading specific data with the DiskImage file, `.dsi`. 
+Disks are loaded with the .rc files which the .rc files can Choose 
+specific functions and to run the .dsi with certain flags.
+
+The .rc files are SO IMPORTANT as they give data for the .dsi files.
+## Kux-Based?
+Craptitude is a FreeKSD-Based, Modular, Disk Mount system written in lua.
+A Fraction of the Craptitude's codebase is taken from the FreeKSD Repository.
+
+FreeKSD **IS** based on the Original Kux Operation System. 
+which means at the bottom of the pit, Craptitude is Kux-based.
+Mainly for convenience and headers. But also code is another main fraction of the Craptitude Repository,
+which is around 30% of the FreeKSD codes. Which also come from Kux.
+

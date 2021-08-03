@@ -1,4 +1,3 @@
-
 require("liblfds")
 os.execute("clear")
 print("Kai's Disk Mounting System")
@@ -15,26 +14,33 @@ local function ends_with(str, ending)
 end
 if n == 1 then
     os.execute("clear")
-    dofile("./mnt/lua-bash.dsi")
+    dofile("./mnt/lua-bash-tty.dsi")
 elseif n == 2 then
     os.execute("clear")
-    print("You currently have " .. getdirnumber("mnt") .. " images in the /mnt directory.")
+    print("You currently have " .. getdirnumber("mnt") .. " image files in the /mnt directory.")
     print("Type the name of one of the images below. (without the .dsi extension)")
     local aiter = 0
-    for i = 0, getdirnumber("mnt")-1 do
+    for i = 0, getdirnumber("mnt") - 1 do
         if (ends_with(getallfilesiE("mnt", i), ".dsi")) then
             aiter = aiter + 1
         end
         if (ends_with(getallfilesiE("mnt", i), ".rc")) then
             local nfile = loadfile("mnt/" .. getallfilesi("mnt", i) .. ".rc")()
-            print(getallfilesi("mnt", i) .. "  " .. nfile.name .. " | disk" .. aiter )
+            print(getallfilesi("mnt", i) .. "  " .. nfile.name .. " | disk" .. aiter)
         end
     end
 
-    local image_filename = readline("crub> ")
+    local image_filename = readline("TTY:> ")
+
     if starts_with(image_filename, "disk") then
-        local num = tonumber(image_filename:sub(5,5));
-        dofile("./mnt/" .. getallfilesi("mnt", num) .. ".dsi")
+        local num = tonumber(image_filename:sub(5, 5));
+        if (loadfile("mnt/" .. getallfilesi("mnt", aiter + 1) .. ".rc")().run == "any") then
+            dofile("./mnt/" .. getallfilesi("mnt", num) .. ".dsi")
+        elseif loadfile("mnt/" .. getallfilesi("mnt", aiter + 1) .. ".rc")().run == "main" then
+            require('mnt.' .. getallfilesi("mnt", aiter + 1) .. ".dsi"):main()
+        else
+            print("incorrect entry in rc!")
+        end
     else
         dofile("./mnt/" .. image_filename .. ".dsi")
     end

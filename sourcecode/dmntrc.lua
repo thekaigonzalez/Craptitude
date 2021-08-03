@@ -1,3 +1,4 @@
 return {
-    name = "Disk Manager"
+    name = "Disk Manager",
+    run = "any"
 }
